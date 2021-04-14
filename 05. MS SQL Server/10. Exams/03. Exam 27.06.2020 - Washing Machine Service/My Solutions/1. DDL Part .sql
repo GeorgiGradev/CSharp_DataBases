@@ -1,0 +1,83 @@
+CREATE DATABASE WMS
+USE WMS
+
+CREATE TABLE Clients
+(
+	ClientId INT PRIMARY KEY IDENTITY,
+	FirstName NVARCHAR(50) NOT NULL,
+	LastName NVARCHAR(50) NOT NULL,
+	Phone CHAR(12) NOT NULL
+)
+
+CREATE TABLE Mechanics
+(
+	MechanicId INT PRIMARY KEY IDENTITY,
+	FirstName NVARCHAR(50) NOT NULL,
+	LastName NVARCHAR(50) NOT NULL,
+	[Address] NVARCHAR(255) NOT NULL
+)
+
+
+CREATE TABLE Models
+(
+	ModelId INT PRIMARY KEY IDENTITY,
+	[Name] NVARCHAR(50) UNIQUE NOT NULL
+)
+
+CREATE TABLE Jobs
+(
+	JobId INT PRIMARY KEY IDENTITY,
+	ModelId INT FOREIGN KEY REFERENCES Models(ModelId) NOT NULL,
+	[Status] NVARCHAR(11) DEFAULT('Pending') NOT NULL
+	CHECK([Status] = 'Pending' OR [Status] = 'In Progress' OR [Status] = 'Finished'),
+	ClientId INT FOREIGN KEY REFERENCES Clients(ClientId) NOT NULL,
+	MechanicId INT FOREIGN KEY REFERENCES Mechanics(MechanicId),
+	IssueDate DATETIME NOT NULL,
+	FinishDate DATETIME
+)
+
+CREATE TABLE Orders
+(
+	OrderId INT PRIMARY KEY IDENTITY,
+	JobId INT FOREIGN KEY REFERENCES Jobs(JobId) NOT NULL,
+	IssueDate DATETIME,
+	Delivered BIT DEFAULT('False') NOT NULL
+)
+
+
+CREATE TABLE Vendors
+(
+	VendorId INT PRIMARY KEY IDENTITY,
+	[Name] NVARCHAR(50) UNIQUE NOT NULL
+)
+
+CREATE TABLE Parts
+(
+	PartId INT PRIMARY KEY IDENTITY,
+	SerialNumber NVARCHAR(50) UNIQUE NOT NULL,
+	[Description] NVARCHAR(255), 
+	Price DECIMAL(6,2) NOT NULL CHECK(Price >=0),
+	VendorId INT FOREIGN KEY REFERENCES Vendors(VendorId),
+	StockQty INT NOT NULL CHECK(StockQty >= 0) DEFAULT(0)
+)
+
+
+CREATE TABLE OrderParts
+(
+    OrderId  int NOT NULL REFERENCES Orders (OrderId),
+    PartId   int NOT NULL REFERENCES Parts (PartId),
+    Quantity int NOT NULL CHECK (Quantity > 0) DEFAULT 1
+        PRIMARY KEY (OrderId, PartId)
+)
+CREATE TABLE PartsNeeded
+(
+    JobId    int NOT NULL REFERENCES Jobs (JobId),
+    PartId   int NOT NULL REFERENCES Parts (PartId),
+    Quantity int NOT NULL CHECK (Quantity > 0) DEFAULT 1
+        PRIMARY KEY (JobId, PartId)
+
+)
+
+
+USE Master
+DROP DATABASE WMS

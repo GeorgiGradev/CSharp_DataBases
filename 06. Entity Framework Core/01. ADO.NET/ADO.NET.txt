@@ -1,0 +1,54 @@
+//1. Създава се Connection
+
+      SqlConnection sqlConnection = new SqlConnection ("Server=.;Database=SoftUni;Integrated Security=true");
+
+//2. Започва процедура по authentication. Използва се Using, за да се затвори връзката в края.
+
+      using (sqlConnection)
+         {
+                sqlConnection.Open();
+
+//3 Създава се заявка към базата данни
+===> ExecuteScalar() => връща една клетка, единична стойност. !!! Връша обект, затова трябва да се CAST-не към INT !!!
+
+              1)  string command = "SELECT COUNT(*) FROM [Employees]";
+              2)  SqlCommand sqlCommand = new SqlCommand(command, sqlConnection); // new SqlCommand(COMMAND, CONNECTION)
+              3)  object result = sqlCommand.ExecuteScalar(); // резултатър e OBJECT
+              4)  Console.WriteLine(result);
+
+===> ExecuteReader() => връша таблица под формата на READER обект, който се чете чрез WHILE цикъл  
+    ==> винаги се ползва USING, за да се затвори четенето !!!
+
+	      1)  string command = "SELECT FirstName, LastName FROM Employees";
+   	      2)  SqlCommand sqlCommand = new SqlCommand(command, sqlConnection);
+	      3)  SqlDataReader result = sqlCommand.ExecuteReader()
+	      4)  using(reader)
+		{
+                	while (result.Read())
+                	{
+                    		string firstName = (string)reader["FirstName"];
+                   		string lastName = (string)reader["LastName"];
+                    		Console.WriteLine(firstName + " " + lastName);
+                	}
+		}
+
+===> ExecuteNonQuery() => не връща резултат, а само affected rows като число (CREATE, INSERT, UPDATE, DELETE)
+
+	      1) string command = "UPDATE Employees SET Salary = Salary * 1.1";
+              2) SqlCommand sqlCommand = new SqlCommand(command, sqlConnection);
+              3) int result = sqlCommand.ExecuteNonQuery();
+              4) Console.WriteLine($"Salary updated for {result} employees");
+
+       }
+
+
+За да се затвори връзката след изпълнение е много важно да се слага USING на:
+1.SqlConnection
+2.SqlDataReader
+
+В C# 8.0 USING може да се пише и преди декларирането на променливата, а после не се ползват къдравите скоби надолу.
+	using SqlConnection sqlConnection = new SqlConnection;
+	sqlConnection.Open();
+	.....
+	.....
+

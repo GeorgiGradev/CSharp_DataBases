@@ -1,0 +1,72 @@
+[
+  {
+    "Id": 2,
+    "Genre": "Violent",
+    "Games": [
+      {
+        "Id": 50,
+        "Title": "Warframe",
+        "Developer": "Digital Extremes",
+        "Tags": "",
+        "Players": 6
+      },
+      {
+        "Id": 22,
+        "Title": "Soul at Stake",
+        "Developer": "Chongming Studio",
+        "Tags": "",
+        "Players": 2
+      },
+      {
+        "Id": 44,
+        "Title": "Black Desert Online",
+        "Developer": "Pearl Abyss",
+        "Tags": "MMO",
+        "Players": 1
+      },
+      {
+        "Id": 57,
+        "Title": "Dead by Daylight",
+        "Developer": "Behaviour Digital Inc.",
+        "Tags": "",
+        "Players": 1
+      }
+    ],
+    "TotalPlayers": 10
+  },
+  {
+    "Id": 5,
+    "Genre": "Nudity",
+    "Games": [
+      {
+        "Id": 40,
+        "Title": "Path of Exile",
+        "Developer": "Grinding Gear Games",
+        "Tags": "",
+        "Players": 2
+      },
+      {
+        "Id": 15,
+        "Title": "Rust",
+        "Developer": "Facepunch Studios",
+        "Tags": "",
+        "Players": 1
+      },
+      {
+        "Id": 29,
+        "Title": "Conan Exiles",
+        "Developer": "Funcom",
+        "Tags": "",
+        "Players": 1
+      },
+      {
+        "Id": 74,
+        "Title": "The Witcher 3: Wild Hunt",
+        "Developer": "CD PROJEKT RED",
+        "Tags": "",
+        "Players": 1
+      }
+    ],
+    "TotalPlayers": 5
+  }
+]
